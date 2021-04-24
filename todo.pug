@@ -1,0 +1,39 @@
+doctype html
+html
+    head
+      meta(charset="UTF-8")
+      meta(name="viewport" content="width=device-width, initial-scale=1.0")
+      meta(http-equiv="X-UA-Compatible" content="ie=edge")
+      link(rel="stylesheet", href=css)
+      title iTodo
+    body
+      div(id="app")
+        div(class="box")
+          div
+            input(class="input", id="title", type="text", style='width:100%')
+          div
+            textarea(id="textarea", style='width:100%', name="", cols="20", rows="10") 
+          button(class="btn btn-primary", id="add_btn") 添加
+        table(class="styled-table", style='width:100%')
+          thead
+            tr
+              th 标题
+              th 详情
+              th 创建时间
+              th 状态
+              th 操作
+          tbody(id="table_body")
+            each val, index in datas
+              tr
+                td #{val.title}
+                td #{val.desc}
+                td(width="40px") #{val.create_at}
+                td(width="40px") #{val.task_status}
+                td(width="40px")
+                  button(onclick="delTask('" + val.id +"')") 删除
+                  div
+                    select(value=val.task_status, onchange="changeStatus(this, '"+ val.id +"')")
+                      option(value="0" selected=(val.task_status == 0)) 已完成
+                      option(value="1" selected=(val.task_status == 1)) 未完成
+                      option(value="2" selected=(val.task_status == 2)) 未开始
+      script(src=webviewjs)
