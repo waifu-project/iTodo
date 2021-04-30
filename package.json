@@ -3,6 +3,7 @@
   "displayName": "iTodo",
   "description": "",
   "version": "0.0.1",
+  "publisher": "iTodo",
   "engines": {
     "vscode": "^1.55.0"
   },
@@ -31,6 +32,9 @@
     "pretest": "npm run lint",
     "test": "node ./test/runTest.js"
   },
+  "dependencies": {
+    "pug": "^3.0.2"
+  },
   "devDependencies": {
     "@types/glob": "^7.1.3",
     "@types/mocha": "^8.0.4",
@@ -39,7 +43,6 @@
     "eslint": "^7.19.0",
     "glob": "^7.1.6",
     "mocha": "^8.2.1",
-    "pug": "^3.0.2",
     "typescript": "^4.1.3",
     "vscode-test": "^1.5.0"
   }
