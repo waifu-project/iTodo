@@ -33,6 +33,7 @@ body.vscode-high-contrast {
 
 .styled-table th,
 .styled-table td {
+    white-space: pre-line;
     padding: 12px 15px;
 }
 
