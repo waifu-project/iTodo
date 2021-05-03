@@ -7,5 +7,6 @@ vsc-extension-quickstart.md
 **/jsconfig.json
 **/*.map
 **/.eslintrc.json
+yarn-error.log
 
 db.json

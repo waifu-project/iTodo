@@ -3,6 +3,7 @@ const path = require("path")
 
 const database = require("./database")
 const page = require("./page")
+const { syncData2Remote, syncData2Local } = require('./sync')
 
 const statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right)
 
@@ -12,13 +13,38 @@ function activate(context) {
 
 	const dbFile = path.join(context.extensionPath, "./db.json")
 	const db = new database(dbFile)
-	
-	statusBar.text = title
+
+  const	getBar = ()=> {
+		let text = vscode.workspace.getConfiguration().get(`itodo.bartext`)
+		if (!text) text = title
+		return text
+	}
+
+	statusBar.text = getBar()
 	statusBar.show()
 
 	statusBar.command = "itodo.showTodoUI"
 
 	let panel = null
+
+	vscode.workspace.onDidChangeConfiguration(event => {
+		let affected = event.affectsConfiguration("itodo.bartext")
+		if (affected) {
+			statusBar.text = getBar()
+		}
+	})
+
+	let sync2Remote = vscode.commands.registerCommand('itodo.syncDataToRemote', async function() {
+		const is = await syncData2Remote(db)
+		console.log(is)
+	})
+
+	let sync2Local = vscode.commands.registerCommand('itodo.syncDataToLocal', async function() {
+		const is = await syncData2Local(db)
+		if (is && !!panel) {
+			panel.dispose()
+		}
+	})
 
 	let disposable = vscode.commands.registerCommand('itodo.showTodoUI', function () {
 
@@ -77,6 +103,9 @@ function activate(context) {
 
 	context.subscriptions.push(disposable)
 	context.subscriptions.push(dispSTTC)
+	context.subscriptions.push(sync2Remote)
+	context.subscriptions.push(sync2Local)
+
 }
 
 function deactivate() { }

@@ -2,8 +2,8 @@
   "name": "itodo",
   "displayName": "iTodo",
   "description": "",
-  "version": "0.0.1",
-  "publisher": "iTodo",
+  "version": "0.0.2",
+  "publisher": "waifuproject",
   "engines": {
     "vscode": "^1.55.0"
   },
@@ -15,15 +15,41 @@
   ],
   "main": "./extension.js",
   "contributes": {
-    
+    "configuration": {
+      "properties": {
+        "itodo.bartext": {
+          "type": "string",
+          "default": "itodo",
+          "description": "json bin secure key"
+        },
+        "itodo.jsonbinSecretKey": {
+          "type": "string",
+          "default": false,
+          "description": "json bin secure key"
+        },
+        "itodo.jsonbinID": {
+          "type": "string",
+          "default": false,
+          "description": "json bin data id"
+        }
+      }
+    },
     "commands": [
       {
+        "command": "itodo.syncDataToLocal",
+        "title": "[itodo] 获取远程数据"
+      },
+      {
+        "command": "itodo.syncDataToRemote",
+        "title": "[itodo] 同步数据到远程"
+      },
+      {
         "command": "itodo.showTodoUI",
-        "title": "显示任务界面"
+        "title": "[itodo] 显示任务界面"
       },
       {
         "command": "itodo.showTotalTaskCount",
-        "title": "显示当前有多少任务"
+        "title": "[itodo] 显示当前有多少任务"
       }
     ]
   },
@@ -33,6 +59,7 @@
     "test": "node ./test/runTest.js"
   },
   "dependencies": {
+    "node-fetch": "^2.6.1",
     "pug": "^3.0.2"
   },
   "devDependencies": {
