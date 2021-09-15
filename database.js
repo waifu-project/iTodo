@@ -36,7 +36,23 @@ class database {
     const rawData = this._db.get(this._once_key)
     if (!rawData) return []
     try {
-      return JSON.parse(rawData) 
+
+      /**
+       * @type [Array<any>]
+       */
+      const _ = JSON.parse(rawData)
+      return _.map(item => {
+        ['create_at', 'update_at'].forEach(_item => {
+          if (item.hasOwnProperty(_item)) {
+            const v = item[_item]
+            const old = new Date(v) / 1000
+            const _t = utils.timeDiyFormat(old)
+            item[`format_${_item}`] = _t
+          }
+        })
+        return item
+      })
+
     } catch (error) {
       console.error(error)
       return []
@@ -48,7 +64,7 @@ class database {
    */
   getStatusTask(status) {
     const data = this.getAll()
-    return data.filter(item=> (item.task_status == status))
+    return data.filter(item => (item.task_status == status))
   }
 
   /**
@@ -72,7 +88,7 @@ class database {
     const list = this.getAll()
     list.unshift(data)
     this._write(list)
-    return data.id
+    return data
   }
 
   /**
@@ -91,6 +107,22 @@ class database {
     }
     this._write(data)
     return f
+  }
+
+  updateTaskByID(id, data) {
+    if (!id || !data) return
+    const oldData = this.getAll()
+    const _data = oldData.map(item=>{
+      if (item['id'] == id) {
+        const __item = Object.assign({}, item, data, {
+          update_at: new Date(),
+        })
+        item = __item
+      }
+      return item
+    })
+    this._write(_data)
+    return true
   }
 
   updateStatusByID(id, status) {

@@ -1,5 +1,7 @@
 # itodo
 
+![](./iBook.png)
+
 重度`vscode`用户, 一个简单的`todolist`
 
 ## 截图

@@ -60,30 +60,42 @@ function activate(context) {
 			switch (message.command) {
 				case 'del':
 					const text = message.text
-					db.removeOnce(text)
-					reload()
+					db.removeOnce(text['id'])
+					reload('del', text)
 					break
 				case 'add':
 					const c = JSON.parse(message.text)
 					const { t, a } = c 
-					db.add(t, a)
-					reload()
+					const once = db.add(t, a)
+					reload('add', once)
 					break
-				case "update":
+				case "updateStatus":
 					const e = JSON.parse(message.text)
 					const { id, status } = e
 					db.updateStatusByID(id, status)
-					reload()
+					reload('updateStatus', { id, status })
+					break
+				case 'update':
+					const p = JSON.parse(message.text)
+					const { title, desc, id: ___id } = p
+					db.updateTaskByID(___id, { title, desc })
 					break
 			}
 		}, undefined, context.subscriptions);
 	
-		const reload = ()=> {
-			const a = db.getAll()
-			const b = JSON.stringify(a)
+		/**
+		 * @param {string} action 
+		 * @param {any} payload 
+		 */
+		const reload = (action, payload)=> {
+			if (!payload) {
+				const a = db.getAll()
+				const b = JSON.stringify(a)
+				payload = b
+			}
 			panel.webview.postMessage({
-				command: "reload",
-				text: b,
+				command: action ? action : "reload",
+				text: payload,
 			});
 		}
 

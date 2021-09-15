@@ -7,6 +7,10 @@ const utils = require("./utils")
 const render = (context, title = "iTodo", datas) => {
   const webviewDir = path.join(context.extensionPath, '.')
 
+  const _title = vscode.workspace.getConfiguration().get(`itodo.bartext`)
+
+  if (!!_title) title = _title
+
   const panel = vscode.window.createWebviewPanel(
     "",
     title,

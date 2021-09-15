@@ -4,6 +4,11 @@
   "description": "",
   "version": "0.0.2",
   "publisher": "waifuproject",
+  "icon": "iBook.png",
+  "repository": {
+    "type": "git",
+    "url":"https://github.com/waifu-project/itodo"
+  },
   "engines": {
     "vscode": "^1.55.0"
   },
@@ -20,7 +25,7 @@
         "itodo.bartext": {
           "type": "string",
           "default": "itodo",
-          "description": "json bin secure key"
+          "description": "status bar text"
         },
         "itodo.jsonbinSecretKey": {
           "type": "string",
